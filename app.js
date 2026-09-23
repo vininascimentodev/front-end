@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/produtos";
+const API_URL = "https://fullstackproject-backend-ag5n.onrender.com/produtos";
 
 const formulario = document.querySelector("#form-produto");
 const campoId = document.querySelector("#produto-id");
