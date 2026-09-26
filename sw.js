@@ -1,4 +1,4 @@
-const CACHE_NAME = "catalogo-produtos-v1";
+const CACHE_NAME = "catalogo-produtos-v2";
 const ARQUIVOS = ["./", "index.html", "style.css", "app.js", "manifest.json", "icon.svg"];
 
 self.addEventListener("install", (evento) => {

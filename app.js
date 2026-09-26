@@ -12,7 +12,7 @@ const botaoCancelar = document.querySelector("#botao-cancelar");
 const listaProdutos = document.querySelector("#lista-produtos");
 const mensagem = document.querySelector("#mensagem");
 const formularioBusca = document.querySelector("#form-busca");
-const campoBuscaId = document.querySelector("#busca-id");
+const campoBusca = document.querySelector("#busca-termo");
 
 async function fazerRequisicao(url, opcoes = {}) {
   const resposta = await fetch(url, opcoes);
@@ -99,10 +99,11 @@ async function listarProdutos() {
   }
 }
 
-async function buscarProdutoPorId(id) {
-  const produto = await fazerRequisicao(`${API_URL}/${id}`);
-  exibirProdutos([produto]);
-  return produto;
+async function buscarProdutos(termo) {
+  const produtos = await fazerRequisicao(
+    `${API_URL}/buscar?termo=${encodeURIComponent(termo)}`
+  );
+  exibirProdutos(produtos);
 }
 
 async function salvarProduto(evento) {
@@ -182,21 +183,21 @@ formulario.addEventListener("submit", salvarProduto);
 botaoCancelar.addEventListener("click", limparFormulario);
 document.querySelector("#botao-atualizar").addEventListener("click", listarProdutos);
 document.querySelector("#botao-limpar-busca").addEventListener("click", () => {
-  campoBuscaId.value = "";
+  campoBusca.value = "";
   listarProdutos();
 });
 
 formularioBusca.addEventListener("submit", async (evento) => {
   evento.preventDefault();
-  const id = campoBuscaId.value.trim();
+  const termo = campoBusca.value.trim();
 
-  if (!id) {
-    mostrarMensagem("Informe um ID para realizar a busca", true);
+  if (!termo) {
+    mostrarMensagem("Informe um nome ou ID para realizar a busca", true);
     return;
   }
 
   try {
-    await buscarProdutoPorId(id);
+    await buscarProdutos(termo);
   } catch (erro) {
     listaProdutos.innerHTML = "";
     mostrarMensagem(erro.message, true);
